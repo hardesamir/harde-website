@@ -1,0 +1,549 @@
+---
+layout: layout.njk
+title: Gallery
+permalink: /gallery/
+---
+
+<div class="container">
+    <a href="/" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Home</a>
+
+    <!-- Filter Buttons (only 'All' for now, as images have no categories) -->
+    <div class="filter-container">
+        <button class="filter-btn active" data-filter="all">All</button>
+    </div>
+    
+    <!-- Gallery Grid -->
+    <div class="gallery-grid" id="galleryGrid">
+        {% for image in collections.galleryImages %}
+        <div class="gallery-card" data-category="all">
+            <div class="card-image">
+                <img src="{{ image.url }}" alt="{{ image.fileSlug or 'Gallery Image' }}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                <div class="placeholder" style="display: none;">
+                    <i class="fas fa-image" style="font-size: 2rem; display: block; margin-bottom: 0.5rem;"></i>
+                    {{ image.fileSlug or 'Image' }}
+                </div>
+            </div>
+
+        </div>
+        {% endfor %}
+    </div>
+    
+    {% if collections.galleryImages.length == 0 %}
+    <div style="text-align: center; color: #c9930d; font-size: 1.2rem; margin-top: 3rem;">
+        <p><i class="fas fa-camera"></i></p>
+        <p>No images in gallery yet.</p>
+        <p style="font-size: 0.9rem; margin-top: 1rem;">Add images to the <code>images/gallery/</code> folder to see them here.</p>
+    </div>
+    {% endif %}
+
+    <!-- Loading Animation -->
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p>Loading gallery...</p>
+    </div>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+    <span class="lightbox-close" id="lightboxClose">&times;</span>
+    <button class="lightbox-arrow lightbox-prev" id="lightboxPrev" aria-label="Previous" style="display:none;">&#8592;</button>
+    <div class="lightbox-content">
+        <img class="lightbox-image" id="lightboxImage" src="" alt="">
+        <div class="lightbox-caption" id="lightboxCaption"></div>
+    </div>
+    <button class="lightbox-arrow lightbox-next" id="lightboxNext" aria-label="Next" style="display:none;">&#8594;</button>
+</div>
+
+<style>
+body {
+    background: #000;
+    color: #fff;
+}
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+.header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2rem 0;
+    background: #181818;
+    border-radius: 15px;
+    box-shadow: 0 2px 10px rgba(201,147,13,0.07);
+}
+.header h1 { color: #c9930d; }
+.header p { color: #fff; }
+.filter-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+}
+.filter-btn {
+    padding: 0.8rem 1.5rem;
+    background: #181818;
+    border: 2px solid #c9930d;
+    border-radius: 25px;
+    color: #c9930d;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+.filter-btn:hover, .filter-btn.active {
+    background: #c9930d;
+    color: #181818;
+    border-color: #c9930d;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(201,147,13,0.18);
+}
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+.gallery-card {
+    background: #181818;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(201,147,13,0.07);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 1.5px solid #c9930d;
+}
+.gallery-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 25px rgba(201,147,13,0.13);
+}
+.card-image {
+    width: 100%;
+    height: 200px;
+    background: #222;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+.gallery-card:hover .card-image img {
+    transform: scale(1.05);
+}
+.card-image .placeholder {
+    color: #c9930d;
+    font-size: 1.1rem;
+    text-align: center;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    background: #222;
+}
+.card-content {
+    padding: 1.5rem;
+}
+.card-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 0.5rem;
+}
+.card-category {
+    display: inline-block;
+    background: #181818;
+    color: #c9930d;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid #c9930d;
+}
+.card-description {
+    color: #c9930d;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+.card-date {
+    color: #888;
+    font-size: 0.8rem;
+    font-style: italic;
+}
+/* Lightbox */
+.lightbox {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.95);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+.lightbox.active {
+    display: flex;
+}
+.lightbox-content {
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+    position: relative;
+    background: transparent;
+    border-radius: 0;
+    overflow: hidden;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: none;
+    padding: 0;
+} 
+.lightbox-image {
+    max-width: 96vw;
+    max-height: 80vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+    background: #222;
+    border: 2px solid #c9930d;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.5);
+    min-width: 200px;
+    min-height: 200px;
+} 
+.lightbox-info {
+    padding: 1.5rem;
+    text-align: center;
+}
+.lightbox-title {
+    color: #fff;
+    font-size: 1.1rem;
+    background: rgba(0,0,0,0.7);
+    margin-top: 1rem;
+    padding: 0.4rem 1.2rem;
+    border-radius: 10px;
+    max-width: 90vw;
+    text-align: center;
+    word-break: break-all;
+}
+.lightbox-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1100;
+    background: rgba(0,0,0,0.5);
+    color: #c9930d;
+    border: none;
+    font-size: 3.5rem;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    opacity: 0.85;
+    user-select: none;
+}
+.lightbox-arrow:active,
+.lightbox-arrow:hover {
+    background: #c9930d;
+    color: #181818;
+    opacity: 1;
+}
+.lightbox-prev {
+    left: 20px;
+}
+.lightbox-next {
+    right: 20px;
+}
+.lightbox-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    color: #fff;
+    font-size: 2rem;
+    cursor: pointer;
+    background: rgba(0,0,0,0.5);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease;
+    z-index: 1000;
+    pointer-events: auto;
+}
+.lightbox-close:hover {
+    background: #c9930d;
+    color: #181818;
+}
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+    .header h1 {
+        font-size: 2rem;
+    }
+    .header p {
+        font-size: 1rem;
+    }
+    .gallery-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    .filter-container {
+        gap: 0.5rem;
+    }
+    .filter-btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.8rem;
+    }
+    .lightbox-content {
+        max-width: 95%;
+        max-height: 95%;
+    }
+}
+.loading {
+    text-align: center;
+    padding: 2rem;
+    display: none;
+}
+.loading.active {
+    display: block;
+}
+.spinner {
+    border: 4px solid #222;
+    border-top: 4px solid #c9930d;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1rem;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #181818;
+    color: #c9930d;
+    border: 2px solid #c9930d;
+    border-radius: 25px;
+    padding: 0.6rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    margin-bottom: 2rem;
+    margin-top: 1rem;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+.back-btn:hover {
+    background: #c9930d;
+    color: #181818;
+    box-shadow: 0 4px 16px rgba(201,147,13,0.18);
+    text-decoration: none;
+}
+</style>
+<script>
+// Filter functionality (only 'All' for now)
+const filterButtons = document.querySelectorAll('.filter-btn');
+const galleryCards = document.querySelectorAll('.gallery-card');
+const loading = document.getElementById('loading');
+filterButtons.forEach(btn => {
+    btn.addEventListener('click', function() {
+        filterButtons.forEach(button => button.classList.remove('active'));
+        this.classList.add('active');
+        const filter = this.getAttribute('data-filter');
+        loading.classList.add('active');
+        setTimeout(() => {
+            galleryCards.forEach(card => {
+                const category = card.getAttribute('data-category');
+                if (filter === 'all' || category === filter) {
+                    card.style.display = 'block';
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 100);
+                } else {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        card.style.display = 'none';
+                    }, 300);
+                }
+            });
+            loading.classList.remove('active');
+        }, 300);
+    });
+});
+// Lightbox with navigation
+const lightbox = document.getElementById('lightbox');
+const lightboxImage = document.getElementById('lightboxImage');
+const lightboxCaption = document.getElementById('lightboxCaption');
+const lightboxClose = document.getElementById('lightboxClose');
+const lightboxPrev = document.getElementById('lightboxPrev');
+const lightboxNext = document.getElementById('lightboxNext');
+let currentIndex = -1;
+const images = Array.from(document.querySelectorAll('.gallery-card img'));
+const cards = Array.from(document.querySelectorAll('.gallery-card'));
+function showLightbox(idx) {
+    if (idx < 0 || idx >= images.length) return;
+    const img = images[idx];
+    if (!img || img.style.display === 'none') return;
+    console.log('showLightbox called with idx:', idx);
+    console.log('Gallery image src:', img.src);
+    console.log('Gallery image alt:', img.alt);
+    lightboxImage.src = img.src;
+    lightboxImage.alt = img.alt;
+    lightboxImage.style.display = 'block'; // Force visible
+    console.log('Lightbox image src set to:', lightboxImage.src);
+    console.log('Lightbox image element:', lightboxImage);
+    // Use filename as caption
+    let caption = img.alt || img.src.split('/').pop();
+    lightboxCaption.textContent = caption;
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    currentIndex = idx;
+    // Show/hide arrows
+    if (images.length > 1) {
+        lightboxPrev.style.display = '';
+        lightboxNext.style.display = '';
+    } else {
+        lightboxPrev.style.display = 'none';
+        lightboxNext.style.display = 'none';
+    }
+}
+cards.forEach((card, idx) => {
+    card.addEventListener('click', function() {
+        showLightbox(idx);
+    });
+});
+lightboxPrev.addEventListener('click', function(e) {
+    e.stopPropagation();
+    let idx = currentIndex;
+    do {
+        idx = (idx - 1 + images.length) % images.length;
+    } while (images[idx].style.display === 'none' && idx !== currentIndex);
+    if (idx !== currentIndex) showLightbox(idx);
+});
+lightboxNext.addEventListener('click', function(e) {
+    e.stopPropagation();
+    let idx = currentIndex;
+    do {
+        idx = (idx + 1) % images.length;
+    } while (images[idx].style.display === 'none' && idx !== currentIndex);
+    if (idx !== currentIndex) showLightbox(idx);
+});
+lightboxClose.addEventListener('click', function(e) {
+    e.stopPropagation();
+    console.log('Close button clicked');
+    closeLightbox();
+});
+lightbox.addEventListener('click', function(e) {
+    if (e.target === lightbox) {
+        closeLightbox();
+    }
+});
+function closeLightbox() {
+    console.log('closeLightbox called');
+    lightbox.classList.remove('active');
+    document.body.style.overflow = 'auto';
+    currentIndex = -1;
+}
+document.addEventListener('keydown', function(e) {
+    if (lightbox.classList.contains('active')) {
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') lightboxPrev.click();
+        if (e.key === 'ArrowRight') lightboxNext.click();
+    }
+});
+// Swipe/drag navigation for lightbox
+(function() {
+    let startX = 0, endX = 0, dragging = false;
+    const img = lightboxImage;
+    // Touch events
+    img.addEventListener('touchstart', function(e) {
+        if (!lightbox.classList.contains('active')) return;
+        dragging = true;
+        startX = e.touches[0].clientX;
+    });
+    img.addEventListener('touchmove', function(e) {
+        if (!dragging) return;
+        endX = e.touches[0].clientX;
+    });
+    img.addEventListener('touchend', function(e) {
+        if (!dragging) return;
+        dragging = false;
+        if (endX - startX > 60) {
+            lightboxPrev.click();
+        } else if (startX - endX > 60) {
+            lightboxNext.click();
+        }
+        startX = endX = 0;
+    });
+    // Mouse events
+    img.addEventListener('mousedown', function(e) {
+        if (!lightbox.classList.contains('active')) return;
+        dragging = true;
+        startX = e.clientX;
+    });
+    img.addEventListener('mousemove', function(e) {
+        if (!dragging) return;
+        endX = e.clientX;
+    });
+    img.addEventListener('mouseup', function(e) {
+        if (!dragging) return;
+        dragging = false;
+        if (endX - startX > 60) {
+            lightboxPrev.click();
+        } else if (startX - endX > 60) {
+            lightboxNext.click();
+        }
+        startX = endX = 0;
+    });
+    img.addEventListener('mouseleave', function() {
+        dragging = false;
+        startX = endX = 0;
+    });
+})();
+galleryCards.forEach(card => {
+    card.style.transition = 'all 0.3s ease';
+});
+document.querySelectorAll('img').forEach(img => {
+    img.addEventListener('error', function() {
+        this.style.display = 'none';
+        const placeholder = this.nextElementSibling;
+        if (placeholder && placeholder.classList.contains('placeholder')) {
+            placeholder.style.display = 'flex';
+        }
+    });
+});
+</script>

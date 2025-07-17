@@ -1,0 +1,16 @@
+{
+  "name": "hardesamir-website",
+  "version": "1.0.0",
+  "description": "Personal website for Harde Samir Murshid with automated gallery using Eleventy (11ty)",
+  "main": ".eleventy.js",
+  "scripts": {
+    "start": "npx @11ty/eleventy --serve",
+    "build": "npx @11ty/eleventy"
+  },
+  "keywords": ["eleventy", "11ty", "gallery", "portfolio"],
+  "author": "Harde Samir Murshid",
+  "license": "MIT",
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.0"
+  }
+}

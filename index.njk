@@ -1,0 +1,163 @@
+---
+layout: layout.njk
+title: Harde Samir Murshid - Actor & Director
+---
+<nav>
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/gallery/">Gallery</a>
+        <a href="#about">About</a>
+    </div>
+</nav>
+
+<script>
+window.addEventListener('DOMContentLoaded', function() {
+    const heroImages = [
+        {% for image in collections.heroImages %}'{{ image.url }}'{% if not loop.last %},{% endif %}{% endfor %}
+    ];
+    const bg1 = document.getElementById('hero-bg-1');
+    const bg2 = document.getElementById('hero-bg-2');
+    let current = 0;
+    let showing = 1; // 1 or 2
+    function setBg(div, img) {
+        div.style.backgroundImage = `url('${img}')`;
+        div.style.backgroundSize = 'cover';
+        div.style.backgroundPosition = 'center';
+        div.style.backgroundRepeat = 'no-repeat';
+    }
+    if (heroImages.length > 0) {
+        setBg(bg1, heroImages[0]);
+        setBg(bg2, heroImages[1 % heroImages.length]);
+        bg1.style.opacity = 1;
+        bg2.style.opacity = 0;
+        setInterval(() => {
+            const next = (current + 1) % heroImages.length;
+            if (showing === 1) {
+                setBg(bg2, heroImages[next]);
+                bg2.style.opacity = 1;
+                bg1.style.opacity = 0;
+                showing = 2;
+            } else {
+                setBg(bg1, heroImages[next]);
+                bg1.style.opacity = 1;
+                bg2.style.opacity = 0;
+                showing = 1;
+            }
+            current = next;
+        }, 6000);
+    }
+});
+</script>
+
+<section class="hero" id="home" style="position:relative;">
+  <div class="hero-bg" id="hero-bg-1" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;transition:opacity 1.5s cubic-bezier(0.4,0,0.2,1);opacity:1;"></div>
+  <div class="hero-bg" id="hero-bg-2" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;transition:opacity 1.5s cubic-bezier(0.4,0,0.2,1);opacity:0;"></div>
+    <div class="hero-content">
+        <h1><span class="hero-underline">HARDE SAMIR MURSHID</span></h1>
+        <p class="tagline"><span class="hero-underline">Actor & Director</span></p>
+        <p class="description"><span class="hero-underline">Bridging traditional theatrical forms with contemporary cinematic techniques, dedicated to Kurdish cultural expression and authentic storytelling</span></p>
+        <a href="/gallery/" class="cta-button">Explore My Gallery</a>
+    </div>
+</section>
+
+
+<section class="section about" id="about">
+    <h2>About</h2>
+    <div class="about-content">
+        <div class="about-image">
+            <img src="/images/profile.jpg" alt="Harde Samir">
+        </div>
+        <div class="about-text">
+    <p>Harde Samir Murshid is an accomplished actor and director born on January 31, 1989, in Kirkuk, Kurdistan. His artistic journey began with his graduation from the Sulaymaniyah Institute of Fine Arts in 2009, where he specialized in acting and developed the foundational skills that would define his career in the performing arts.<br><br>Following his graduation, Murshid established himself as a prominent figure in Kurdish theater and cinema. His notable theatrical performances include leading roles in acclaimed productions such as "Shalir" and "Romeo and Juliet," which demonstrated his range and commitment to classical dramatic works.<br><br>In 2016, Murshid expanded his artistic practice by pursuing advanced studies in cinema, graduating in 2020 with a specialization in directing. His work reflects a deep commitment to Kurdish cultural expression and storytelling, positioning him as a significant contributor to the ongoing development of Kurdish artistic expression in both regional and international contexts.</p>
+</div>
+    </div>
+</section>
+
+<section class="section experience" id="experience">
+    <h2>Professional Experience</h2>
+    <div class="experience-grid">
+        <div class="experience-item">
+            <h3>Acting Career</h3>
+            <p>Established career in Kurdish theater and cinema with versatile performances across multiple mediums.</p>
+            <ul>
+                <li>Leading roles in "Shalir" and "Romeo and Juliet" (Theater)</li>
+                <li>Feature film "Lovers Die Standing"</li>
+                <li>Television series: "Garmian U Kwestan," "Rabab," "Ghorbat," "Akamy Nheniakamn," "Chpay Rabrdu"</li>
+                <li>Seven short films supporting independent Kurdish cinema</li>
+            </ul>
+        </div>
+        <div class="experience-item">
+            <h3>Education & Training</h3>
+            <p>Comprehensive formal training in both acting and directing disciplines.</p>
+            <ul>
+                <li>Sulaymaniyah Institute of Fine Arts (2009) - Acting Specialization</li>
+                <li>Advanced Cinema Studies (2016-2020) - Directing Specialization</li>
+                <li>Continuous professional development in dramatic arts</li>
+            </ul>
+        </div>
+        <div class="experience-item">
+            <h3>Directorial Work</h3>
+            <p>Award-winning director with international recognition for innovative storytelling.</p>
+            <ul>
+                <li>Short film "A Halla Way" (2020) - 10 International Awards</li>
+                <li>Feature directorial debut "Sara" (2024) - Documentary-style based on true events</li>
+                <li>2 years and 4 months of intensive research for "Sara"</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="section portfolio" id="portfolio">
+    <h2>Selected Works</h2>
+    <div class="portfolio-grid">
+        <div class="portfolio-item">
+            <div class="portfolio-item-image">
+                <img src="/images/sara_film.jpg" alt="Sara Film Poster">
+            </div>
+            <div class="portfolio-item-content">
+                <h3>"Sara" (2024)</h3>
+                <p>Feature directorial debut. Documentary-style film based on true events, representing the culmination of two years and four months of intensive research and authentic storytelling.</p>
+            </div>
+        </div>
+        <div class="portfolio-item">
+            <div class="portfolio-item-image">
+                <img src="/images/lovers_die_standing.jpg" alt="Lovers Die Standing Poster">
+            </div>
+            <div class="portfolio-item-content">
+                <h3>"Lovers Die Standing"</h3>
+                <p>Feature film performance showcasing dramatic range in Kurdish cinema. Significant contribution to the development of contemporary Kurdish filmmaking.</p>
+            </div>
+        </div>
+        <div class="portfolio-item">
+            <div class="portfolio-item-image">
+                <img src="/images/a_halla_way.jpg" alt="A Halla Way Poster">
+            </div>
+            <div class="portfolio-item-content">
+                <h3>"A Halla Way" (2020)</h3>
+                <p>Short film awarded at 10 international festivals. A story of resilience and hope.</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section class="section contact" id="contact">
+    <h2>Get In Touch</h2>
+    <div class="contact-content">
+        <div class="contact-info">
+            <h3>Professional Inquiries</h3>
+            <p><i class="fas fa-envelope"></i> contact@hardesamir.com</p>
+            <p><i class="fas fa-phone"></i> +964 770 1911146</p>
+            <p><i class="fas fa-map-marker-alt"></i> Sulaymaniyah, Kurdistan Region, Iraq</p>
+            
+            <p><i class="fas fa-language"></i> Kurdish, Arabic, English</p>
+        </div>
+        <form class="contact-form" action="https://formsubmit.co/contact@hardesamir.com" method="POST" data-component-name="<form />">
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Your Email" required>
+            <input type="text" name="subject" placeholder="Project Type / Subject">
+            <textarea name="message" placeholder="Tell me about your project..." required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+    </div>
+</section>
