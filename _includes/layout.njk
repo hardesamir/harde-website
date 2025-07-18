@@ -143,7 +143,20 @@
         const contactForm = document.querySelector('.contact-form');
         if (contactForm) {
             contactForm.addEventListener('submit', function(e) {
-                alert('Thank you for your message! Your email client will open to send the message.');
+                const submitBtn = contactForm.querySelector('button[type="submit"]');
+                submitBtn.textContent = 'Sending...';
+                submitBtn.disabled = true;
+                
+                // Formspree will handle the actual submission
+                // Show success message after form submission
+                setTimeout(() => {
+                    submitBtn.textContent = 'Message Sent!';
+                    setTimeout(() => {
+                        submitBtn.textContent = 'Send Message';
+                        submitBtn.disabled = false;
+                        contactForm.reset();
+                    }, 2000);
+                }, 1000);
             });
         }
         // Intersection Observer for animations
