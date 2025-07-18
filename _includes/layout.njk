@@ -19,9 +19,11 @@
         .mobile-menu { display: none; flex-direction: column; cursor: pointer; }
         .mobile-menu span { width: 25px; height: 3px; background: #fff; margin: 3px 0; transition: 0.3s; }
         .hero { height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
-        .hero-background { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+        .hero-slider { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+        .hero-slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 1.5s ease-in-out; }
+        .hero-slide.active { opacity: 1; }
         .hero-bg-img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.4); }
-        .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 50%, rgba(201,147,13,0.1) 100%); }
+        .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 50%, rgba(201,147,13,0.1) 100%); z-index: 2; }
         .hero-content { text-align: center; z-index: 3; max-width: 800px; padding: 0 2rem; position: relative; }
         .hero h1 { font-size: 4rem; color: #fff; margin-bottom: 1rem; animation: fadeInUp 1s ease-out; }
         .hero .tagline { font-size: 1.5rem; color: #c9930d; margin-bottom: 2rem; animation: fadeInUp 1s ease-out 0.3s both; }
@@ -169,6 +171,26 @@
                 this.style.transform = 'translateY(0) scale(1)';
             });
         });
+        
+        // Hero background image slider (smooth transitions between hero images)
+        const heroSlides = document.querySelectorAll('.hero-slide');
+        if (heroSlides.length > 1) {
+            let currentSlide = 0;
+            
+            function nextSlide() {
+                // Remove active class from current slide
+                heroSlides[currentSlide].classList.remove('active');
+                
+                // Move to next slide
+                currentSlide = (currentSlide + 1) % heroSlides.length;
+                
+                // Add active class to new slide
+                heroSlides[currentSlide].classList.add('active');
+            }
+            
+            // Start auto-sliding every 4 seconds
+            setInterval(nextSlide, 4000);
+        }
     </script>
 </body>
 </html>

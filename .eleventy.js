@@ -31,6 +31,31 @@ module.exports = function(eleventyConfig) {
     
     return images.sort((a, b) => a.filename.localeCompare(b.filename));
   });
+
+  // Create hero images collection
+  eleventyConfig.addCollection("heroImages", function(collectionApi) {
+    const heroPath = './images/hero';
+    const images = [];
+    
+    try {
+      if (fs.existsSync(heroPath)) {
+        const files = fs.readdirSync(heroPath);
+        files.forEach(file => {
+          if (file.match(/\.(jpg|jpeg|png|gif|webp)$/i) && file !== '.keep') {
+            images.push({
+              url: `/images/hero/${file}`,
+              fileSlug: path.parse(file).name,
+              filename: file
+            });
+          }
+        });
+      }
+    } catch (error) {
+      console.log('Hero directory not found or error reading:', error.message);
+    }
+    
+    return images.sort((a, b) => a.filename.localeCompare(b.filename));
+  });
   
   // Set up directories
   return {

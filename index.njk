@@ -4,8 +4,12 @@ title: "Harde Samir Murshid - Actor & Director"
 ---
 
 <section class="hero" id="home">
-    <div class="hero-background">
-        <img src="/images/hero/hero-background2.jpg" alt="Hero Background" class="hero-bg-img">
+    <div class="hero-slider">
+        {% for image in collections.heroImages %}
+        <div class="hero-slide {% if loop.first %}active{% endif %}">
+            <img src="{{ image.url }}" alt="Hero Background {{ loop.index }}" class="hero-bg-img">
+        </div>
+        {% endfor %}
         <div class="hero-overlay"></div>
     </div>
     <div class="hero-content">
@@ -26,7 +30,7 @@ title: "Harde Samir Murshid - Actor & Director"
             <img src="images/profile.jpg" alt="Harde Samir Murshid - Professional Portrait">
         </div>
         <div class="about-text">
-            <p><strong>Harde Samir Murshid</strong> is an accomplished actor and director born on January 31, 1989, in Kirkuk, Kurdistan. His artistic journey began with his graduation from the <strong>Sulaymaniyah Institute of Fine Arts</strong> in 2009, where he specialized in acting and developed the foundational skills that would define his career in the performing arts.</p>
+            <p><strong>Harde Samir Murshid</strong> is an accomplished actor and director born on January 31, 1989, in Sulaymaniyah, Kurdistan. His artistic journey began with his graduation from the <strong>Sulaymaniyah Institute of Fine Arts</strong> in 2009, where he specialized in acting and developed the foundational skills that would define his career in the performing arts.</p>
             
             <p>Following his graduation, Murshid established himself as a prominent figure in Kurdish theater and cinema. His notable theatrical performances include leading roles in acclaimed productions such as <strong>"Shalir"</strong> and <strong>"Romeo and Juliet,"</strong> which demonstrated his range and commitment to classical dramatic works.</p>
             
@@ -107,25 +111,7 @@ title: "Harde Samir Murshid - Actor & Director"
             </div>
         </div>
         
-        <div class="portfolio-item">
-            <div class="portfolio-item-image">
-                <img src="images/theater-photos/romeo-juliet.jpg" alt="Romeo and Juliet Theater Production">
-            </div>
-            <div class="portfolio-item-content">
-                <h3>Theater: "Romeo and Juliet"</h3>
-                <p>Leading role in the classical dramatic work, demonstrating commitment to traditional theatrical forms and classical dramatic interpretation.</p>
-            </div>
-        </div>
-        
-        <div class="portfolio-item">
-            <div class="portfolio-item-image">
-                <img src="images/theater-photos/shalir.jpg" alt="Shalir Theater Production">
-            </div>
-            <div class="portfolio-item-content">
-                <h3>Theater: "Shalir"</h3>
-                <p>Notable theatrical performance establishing his presence in Kurdish theater. Showcased range and dedication to Kurdish cultural expression.</p>
-            </div>
-        </div>
+
     </div>
 </section>
 
@@ -136,7 +122,7 @@ title: "Harde Samir Murshid - Actor & Director"
             <h3>Professional Inquiries</h3>
             <p><i class="fas fa-envelope"></i> contact@hardesamir.com</p>
             <p><i class="fas fa-phone"></i> +964 770 1911146</p>
-            <p><i class="fas fa-map-marker-alt"></i> Kirkuk, Kurdistan Region, Iraq</p>
+            <p><i class="fas fa-map-marker-alt"></i> Sulaymaniyah, Kurdistan Region, Iraq</p>
             <p><i class="fas fa-briefcase"></i> Available for acting & directing projects</p>
             <p><i class="fas fa-language"></i> Kurdish, Arabic, English</p>
         </div>
