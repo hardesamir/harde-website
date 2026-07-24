@@ -6,15 +6,19 @@ import type { APIRoute } from 'astro';
 
 export const prerender = false;
 
-export const GET: APIRoute = ({ url, redirect }) => {
+export const GET: APIRoute = ({ redirect }) => {
   const clientId = process.env.OAUTH_GITHUB_CLIENT_ID ?? import.meta.env.OAUTH_GITHUB_CLIENT_ID;
   if (!clientId) {
     return new Response('OAUTH_GITHUB_CLIENT_ID is not configured', { status: 500 });
   }
 
+  // the serverless runtime doesn't see the public hostname, so build the
+  // callback from the canonical site URL — it must match the URL registered
+  // on the GitHub OAuth app exactly
+  const site = import.meta.env.SITE ?? 'https://hardesamir.com';
   const authUrl = new URL('https://github.com/login/oauth/authorize');
   authUrl.searchParams.set('client_id', clientId);
-  authUrl.searchParams.set('redirect_uri', `${url.origin}/oauth/callback`);
+  authUrl.searchParams.set('redirect_uri', new URL('/oauth/callback', site).toString());
   authUrl.searchParams.set('scope', 'repo,user');
 
   return redirect(authUrl.toString(), 302);
