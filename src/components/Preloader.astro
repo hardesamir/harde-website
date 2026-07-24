@@ -1,0 +1,47 @@
+---
+import profile from '../data/profile.json';
+---
+
+<div class="preloader" data-preloader aria-hidden="true">
+  <div class="preloader-inner">
+    <p class="mono-label preloader-count" data-preloader-count>00</p>
+    <p class="preloader-name" data-preloader-name>{profile.name.toUpperCase()}</p>
+    <p class="mono-label preloader-sub">A Portfolio Feature</p>
+  </div>
+</div>
+
+<style>
+  .preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 9995;
+    background: var(--ink);
+    color: var(--bone);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  /* only ever shown by JS on first visit */
+  html.js:not(.reduced-motion) .preloader.is-active {
+    display: flex;
+  }
+
+  .preloader-count {
+    color: var(--crimson);
+    margin-bottom: 1.25rem;
+  }
+
+  .preloader-name {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 5vw, 3.25rem);
+    letter-spacing: 0.28em;
+    text-indent: 0.28em;
+    margin-bottom: 1rem;
+  }
+
+  .preloader-sub {
+    opacity: 0.55;
+  }
+</style>

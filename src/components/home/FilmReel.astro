@@ -1,0 +1,188 @@
+---
+import SectionLabel from '../SectionLabel.astro';
+import filmography from '../../data/filmography.json';
+---
+
+<section class="section theme-ink film-reel" id="filmography" data-reel>
+  <div class="container">
+    <SectionLabel num="03" label="Filmography" />
+    <h2 class="display-lg reel-title" data-split>The reel so far.</h2>
+    <p class="mono-label reel-hint" aria-hidden="true">Scroll to advance ⟶</p>
+  </div>
+
+  <div class="reel-viewport" data-reel-viewport>
+    <div class="reel-track" data-reel-track>
+      {filmography.map((item, i) => (
+        <article class="reel-card" data-reel-card>
+          <div class="card-sprockets" aria-hidden="true">
+            {Array.from({ length: 7 }).map(() => (
+              <span></span>
+            ))}
+          </div>
+          <div class="card-body">
+            <p class="mono-label card-index">
+              {String(i + 1).padStart(2, '0')} <span class="card-type">/ {item.type}</span>
+            </p>
+            <h3 class="card-title">
+              {item.title}
+              {item.year && <span class="card-year">{item.year}</span>}
+            </h3>
+            <p class="mono-label card-role">{item.role}</p>
+            <p class="card-note">{item.note}</p>
+            {item.awards && <p class="card-awards">★ {item.awards}</p>}
+          </div>
+          <div class="card-sprockets" aria-hidden="true">
+            {Array.from({ length: 7 }).map(() => (
+              <span></span>
+            ))}
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+
+  <div class="container reel-progress-wrap" aria-hidden="true">
+    <div class="reel-timecode mono-label" data-reel-timecode>00:00</div>
+    <div class="reel-progress">
+      <div class="reel-progress-bar" data-reel-progress></div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .film-reel {
+    overflow: clip;
+  }
+
+  .reel-title {
+    margin-bottom: 0.75rem;
+  }
+
+  .reel-hint {
+    color: rgba(242, 238, 230, 0.5);
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .reel-viewport {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .reel-viewport::-webkit-scrollbar {
+    display: none;
+  }
+
+  .reel-track {
+    display: flex;
+    gap: clamp(1.25rem, 2.5vw, 2rem);
+    padding-inline: var(--gutter);
+    width: max-content;
+  }
+
+  .reel-card {
+    width: clamp(300px, 34vw, 420px);
+    flex-shrink: 0;
+    scroll-snap-align: center;
+    background: rgba(242, 238, 230, 0.04);
+    border: 1px solid var(--line-invert);
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.4s var(--ease-out), background-color 0.4s var(--ease-out);
+  }
+
+  .reel-card:hover {
+    border-color: var(--crimson);
+    background: rgba(242, 238, 230, 0.07);
+  }
+
+  .card-sprockets {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.8rem 1.1rem;
+  }
+
+  .card-sprockets span {
+    width: 14px;
+    height: 10px;
+    border-radius: 3px;
+    background: var(--ink);
+    border: 1px solid var(--line-invert);
+  }
+
+  .card-body {
+    flex: 1;
+    padding: 1.5rem 1.75rem 2rem;
+    border-block: 1px solid var(--line-invert);
+    display: grid;
+    align-content: start;
+    gap: 0.9rem;
+  }
+
+  .card-index {
+    color: var(--crimson);
+  }
+
+  .card-type {
+    color: rgba(242, 238, 230, 0.55);
+  }
+
+  .card-title {
+    font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .card-year {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: rgba(242, 238, 230, 0.6);
+  }
+
+  .card-role {
+    color: rgba(242, 238, 230, 0.65);
+  }
+
+  .card-note {
+    font-size: 0.98rem;
+    line-height: 1.6;
+    color: rgba(242, 238, 230, 0.75);
+  }
+
+  .card-awards {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    color: var(--crimson);
+    text-transform: uppercase;
+  }
+
+  .reel-progress-wrap {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .reel-timecode {
+    color: var(--crimson);
+    min-width: 5ch;
+  }
+
+  .reel-progress {
+    flex: 1;
+    height: 1px;
+    background: var(--line-invert);
+    position: relative;
+  }
+
+  .reel-progress-bar {
+    position: absolute;
+    inset: 0;
+    background: var(--crimson);
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+</style>

@@ -1,0 +1,124 @@
+---
+import { Image } from 'astro:assets';
+import SectionLabel from '../SectionLabel.astro';
+import profile from '../../data/profile.json';
+import portrait from '../../assets/profile.jpg';
+---
+
+<section class="section about" id="about">
+  <div class="container">
+    <SectionLabel num="02" label="About" />
+
+    <div class="about-grid">
+      <div class="about-portrait" data-reveal="wipe">
+        <Image
+          src={portrait}
+          alt={`${profile.name} — portrait`}
+          widths={[480, 720, 960]}
+          sizes="(max-width: 900px) 100vw, 40vw"
+          formats={['avif', 'webp']}
+          loading="lazy"
+        />
+        <p class="mono-label portrait-caption">
+          b. 1989 — {profile.birthPlace}
+        </p>
+      </div>
+
+      <div class="about-text">
+        <h2 class="display-lg" data-split>A life staged between theatre and cinema.</h2>
+        {profile.bio.map((para) => (
+          <p data-reveal="rise">{para}</p>
+        ))}
+
+        <dl class="about-education">
+          {profile.education.map((e) => (
+            <div class="edu-row" data-reveal="rise">
+              <dt class="mono-label">{e.years}</dt>
+              <dd>
+                <strong>{e.title}</strong>
+                <span>{e.detail}</span>
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-grid {
+    display: grid;
+    grid-template-columns: minmax(280px, 2fr) 3fr;
+    gap: clamp(2.5rem, 6vw, 6rem);
+    align-items: start;
+  }
+
+  .about-portrait {
+    position: sticky;
+    top: 7rem;
+  }
+
+  .about-portrait img {
+    width: 100%;
+    filter: grayscale(20%);
+  }
+
+  .portrait-caption {
+    margin-top: 1rem;
+    color: var(--ink-soft);
+  }
+
+  .about-text {
+    display: grid;
+    gap: 1.6rem;
+  }
+
+  .about-text h2 {
+    margin-bottom: 1rem;
+  }
+
+  .about-text p {
+    color: var(--ink-soft);
+    max-width: 62ch;
+  }
+
+  .about-education {
+    margin-top: 1.5rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .edu-row {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 1.5rem;
+    padding-block: 1.4rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .edu-row dt {
+    color: var(--crimson);
+    padding-top: 0.3rem;
+  }
+
+  .edu-row dd {
+    display: grid;
+    gap: 0.2rem;
+  }
+
+  .edu-row dd span {
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: 900px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .about-portrait {
+      position: static;
+      max-width: 440px;
+    }
+  }
+</style>

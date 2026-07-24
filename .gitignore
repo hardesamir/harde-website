@@ -1,4 +1,8 @@
-_site/
+# build output
+dist/
+# generated types
+.astro/
+
 node_modules/
 .DS_Store
 .env

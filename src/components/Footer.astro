@@ -1,0 +1,61 @@
+---
+import profile from '../data/profile.json';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer theme-ink">
+  <div class="container footer-inner">
+    <p class="display-md footer-name">{profile.name}</p>
+
+    <div class="footer-row">
+      <div class="footer-socials">
+        {profile.socials.map((s) => (
+          <a href={s.url} target="_blank" rel="noopener noreferrer" class="mono-label">
+            {s.label} ↗
+          </a>
+        ))}
+        <a href={`mailto:${profile.contact.email}`} class="mono-label">Email ↗</a>
+      </div>
+      <p class="mono-label footer-fin">Fin. © {year} {profile.name}</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    padding-block: clamp(3.5rem, 8vw, 6rem) 2rem;
+  }
+
+  .footer-name {
+    margin-bottom: clamp(2.5rem, 6vw, 4.5rem);
+  }
+
+  .footer-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem 3rem;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--line-invert);
+    padding-top: 1.75rem;
+  }
+
+  .footer-socials {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .footer-socials a {
+    opacity: 0.85;
+    transition: opacity 0.3s, color 0.3s;
+  }
+
+  .footer-socials a:hover {
+    opacity: 1;
+    color: var(--crimson);
+  }
+
+  .footer-fin {
+    opacity: 0.55;
+  }
+</style>

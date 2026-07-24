@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://hardesamir.com/sitemap-index.xml

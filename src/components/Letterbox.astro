@@ -1,0 +1,26 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  image: ImageMetadata;
+  alt: string;
+  caption?: string;
+}
+const { image, alt, caption } = Astro.props;
+---
+
+<div class="letterbox" data-letterbox>
+  <div class="letterbox-frame">
+    <Image
+      src={image}
+      alt={alt}
+      widths={[768, 1280, 1920]}
+      sizes="100vw"
+      formats={['avif', 'webp']}
+      loading="lazy"
+      data-letterbox-img
+    />
+  </div>
+  {caption && <p class="letterbox-caption">{caption}</p>}
+</div>
