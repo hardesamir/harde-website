@@ -2,7 +2,10 @@
 import { Image } from 'astro:assets';
 import SectionLabel from '../SectionLabel.astro';
 import profile from '../../data/profile.json';
-import portrait from '../../assets/profile.jpg';
+import homepage from '../../data/homepage.json';
+import { resolveImage } from '../../utils/images';
+
+const portrait = resolveImage(homepage.portrait);
 ---
 
 <section class="section about" id="about">

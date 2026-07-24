@@ -10,8 +10,10 @@ import FeaturedWorks from '../components/home/FeaturedWorks.astro';
 import GalleryTeaser from '../components/home/GalleryTeaser.astro';
 import Contact from '../components/home/Contact.astro';
 import profile from '../data/profile.json';
-import letterboxA from '../assets/gallery/photo_5_2025-07-17_17-56-24.jpg';
-import letterboxB from '../assets/gallery/photo_6_2025-07-17_17-56-24.jpg';
+import homepage from '../data/homepage.json';
+import { resolveImage } from '../utils/images';
+
+const [letterboxA, letterboxB] = homepage.letterboxes;
 ---
 
 <Base
@@ -21,11 +23,23 @@ import letterboxB from '../assets/gallery/photo_6_2025-07-17_17-56-24.jpg';
   <Preloader />
   <Hero />
   <About />
-  <Letterbox image={letterboxA} alt="Cinematic still of Harde Samir Murshid" caption="On stage and on set — Kurdistan" />
+  {letterboxA && (
+    <Letterbox
+      image={resolveImage(letterboxA.image)}
+      alt="Cinematic still of Harde Samir Murshid"
+      caption={letterboxA.caption}
+    />
+  )}
   <FilmReel />
   <Marquee items={['10 International Awards', '“A Halla Way”', 'Dir. 2020', profile.tagline]} />
   <FeaturedWorks />
   <GalleryTeaser />
-  <Letterbox image={letterboxB} alt="Behind the scenes still" caption={`Languages — ${profile.contact.languages.join(' · ')}`} />
+  {letterboxB && (
+    <Letterbox
+      image={resolveImage(letterboxB.image)}
+      alt="Behind the scenes still"
+      caption={letterboxB.caption}
+    />
+  )}
   <Contact />
 </Base>

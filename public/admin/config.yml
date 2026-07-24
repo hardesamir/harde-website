@@ -54,6 +54,50 @@ collections:
               - { name: handle, label: Handle, widget: string }
               - { name: url, label: URL, widget: string }
 
+      - name: homepage
+        label: Homepage Images
+        file: src/data/homepage.json
+        format: json
+        fields:
+          - name: heroImage
+            label: Hero Background (big image at the top)
+            widget: image
+            media_folder: /src/assets/hero
+            public_folder: /src/assets/hero
+          - name: portrait
+            label: About Section Portrait
+            widget: image
+            media_folder: /src/assets
+            public_folder: /src/assets
+          - name: letterboxes
+            label: Wide Cinematic Strips (21:9)
+            label_singular: Strip
+            widget: list
+            max: 2
+            fields:
+              - { name: image, label: Image, widget: image }
+              - { name: caption, label: Caption, widget: string }
+          - name: works
+            label: Selected Works (posters)
+            label_singular: Work
+            widget: list
+            fields:
+              - name: image
+                label: Poster
+                widget: image
+                media_folder: /src/assets/posters
+                public_folder: /src/assets/posters
+              - { name: title, label: Title, widget: string }
+              - { name: year, label: Year / Label, widget: string }
+              - { name: role, label: Role, widget: string }
+              - { name: award, label: Award Badge, widget: string, required: false }
+              - { name: text, label: Description, widget: text }
+          - name: teaser
+            label: Gallery Preview (drag to reorder)
+            label_singular: Photo
+            widget: list
+            field: { name: image, label: Image, widget: image }
+
       - name: filmography
         label: Filmography
         file: src/data/filmography.json

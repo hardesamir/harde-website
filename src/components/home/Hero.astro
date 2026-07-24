@@ -1,7 +1,10 @@
 ---
 import { Image } from 'astro:assets';
 import profile from '../../data/profile.json';
-import heroImage from '../../assets/hero/hero-background2.jpg';
+import homepage from '../../data/homepage.json';
+import { resolveImage } from '../../utils/images';
+
+const heroImage = resolveImage(homepage.heroImage);
 ---
 
 <section class="hero theme-ink" id="home" data-hero>
