@@ -98,6 +98,21 @@ collections:
             widget: list
             field: { name: image, label: Image, widget: image }
 
+      - name: music
+        label: Background Music
+        file: src/data/music.json
+        format: json
+        fields:
+          - { name: enabled, label: Show the sound button, widget: boolean }
+          - name: file
+            label: Music File (MP3)
+            widget: file
+            required: false
+            media_folder: /public/audio
+            public_folder: /audio
+            hint: Upload a track you own the rights to — e.g. a score from your own films.
+          - { name: label, label: Button Label, widget: string, default: Sound }
+
       - name: filmography
         label: Filmography
         file: src/data/filmography.json
