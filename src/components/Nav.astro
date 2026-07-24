@@ -256,13 +256,25 @@ const links = [
 
 <script>
   function initNav() {
-    const nav = document.querySelector('[data-nav]');
+    const nav = document.querySelector<HTMLElement>('[data-nav]');
     const toggle = document.querySelector('[data-nav-toggle]');
     if (!nav || !toggle) return;
 
-    const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 40);
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+    // one window-level scroll listener that always targets the current nav
+    if (!(window as any).__navScrollBound) {
+      (window as any).__navScrollBound = true;
+      window.addEventListener(
+        'scroll',
+        () => document.querySelector('[data-nav]')?.classList.toggle('scrolled', window.scrollY > 40),
+        { passive: true }
+      );
+    }
+
+    // guard: initNav runs both at module load and on astro:page-load —
+    // double-binding the toggle makes the menu open and instantly close
+    if (nav.dataset.bound) return;
+    nav.dataset.bound = '1';
 
     toggle.addEventListener('click', () => {
       const open = nav.classList.toggle('menu-open');
