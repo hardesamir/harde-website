@@ -1,7 +1,10 @@
 {
-  "name": "Harde Samir Murshid",
+  "name": "Harde Samir",
   "shortName": "Harde Samir",
-  "roles": ["Actor", "Director"],
+  "roles": [
+    "Actor",
+    "Director"
+  ],
   "tagline": "Actor & Director",
   "heroDescription": "Bridging traditional theatrical forms with contemporary cinematic techniques, dedicated to Kurdish cultural expression and authentic storytelling.",
   "birthDate": "1989-01-31",
@@ -13,18 +16,38 @@
     "In 2016, Murshid expanded his artistic practice by pursuing advanced studies in cinema, graduating in 2020 with a specialization in directing. His work reflects a deep commitment to Kurdish cultural expression and storytelling, positioning him as a significant contributor to the ongoing development of Kurdish artistic expression in both regional and international contexts."
   ],
   "education": [
-    { "years": "2009", "title": "Sulaymaniyah Institute of Fine Arts", "detail": "Acting Specialization" },
-    { "years": "2016–2020", "title": "Advanced Cinema Studies", "detail": "Directing Specialization" }
+    {
+      "years": "2009",
+      "title": "Sulaymaniyah Institute of Fine Arts",
+      "detail": "Acting Specialization"
+    },
+    {
+      "years": "2016–2020",
+      "title": "Advanced Cinema Studies",
+      "detail": "Directing Specialization"
+    }
   ],
   "contact": {
     "email": "contact@hardesamir.com",
     "phone": "+964 770 1911146",
     "location": "Sulaymaniyah, Kurdistan Region, Iraq",
-    "languages": ["Kurdish", "Arabic", "English"]
+    "languages": [
+      "Kurdish",
+      "Arabic",
+      "English"
+    ]
   },
   "formspree": "https://formspree.io/f/xanbnoob",
   "socials": [
-    { "label": "Instagram", "handle": "harde.samir", "url": "https://instagram.com/harde.samir" },
-    { "label": "Facebook", "handle": "harde.samir", "url": "https://facebook.com/harde.samir" }
+    {
+      "label": "Instagram",
+      "handle": "harde.samir",
+      "url": "https://instagram.com/harde.samir"
+    },
+    {
+      "label": "Facebook",
+      "handle": "harde.samir",
+      "url": "https://facebook.com/harde.samir"
+    }
   ]
 }
