@@ -1,0 +1,35 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="Scene Missing — Harde Samir Murshid"
+  description="Page not found — Harde Samir Murshid, actor and director."
+>
+  <section class="section theme-ink notfound">
+    <div class="container notfound-inner">
+      <p class="mono-label slate-line">Scene 404 / Take ∞</p>
+      <h1 class="display-xl">SCENE<br />MISSING</h1>
+      <p class="lede">This reel doesn't exist — the page you're looking for was left on the cutting-room floor.</p>
+      <a href="/" class="btn">Back to opening scene <span class="arrow">→</span></a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .notfound {
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+  }
+
+  .notfound-inner {
+    display: grid;
+    gap: 2rem;
+    justify-items: start;
+  }
+
+  .slate-line {
+    color: var(--crimson);
+  }
+</style>

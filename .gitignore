@@ -1,4 +1,9 @@
-_site/
+# build output
+dist/
+.vercel/
+# generated types
+.astro/
+
 node_modules/
 .DS_Store
 .env

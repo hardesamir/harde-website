@@ -1,0 +1,95 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import '@fontsource-variable/fraunces';
+import '@fontsource-variable/archivo';
+import '@fontsource/space-mono';
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import GrainOverlay from '../components/GrainOverlay.astro';
+import Cursor from '../components/Cursor.astro';
+import profile from '../data/profile.json';
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+}
+
+const { title, description, ogImage = '/og-image.jpg' } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImageUrl = new URL(ogImage, Astro.site);
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: profile.name,
+  jobTitle: profile.roles,
+  birthDate: profile.birthDate,
+  birthPlace: { '@type': 'Place', name: profile.birthPlace },
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Sulaymaniyah',
+    addressRegion: 'Kurdistan Region',
+    addressCountry: 'IQ',
+  },
+  alumniOf: { '@type': 'EducationalOrganization', name: 'Sulaymaniyah Institute of Fine Arts' },
+  email: `mailto:${profile.contact.email}`,
+  url: Astro.site?.toString(),
+  sameAs: profile.socials.map((s) => s.url),
+  knowsLanguage: profile.contact.languages,
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#f2eee6" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={profile.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(personSchema)} is:inline />
+
+    <script is:inline>
+      // marks JS availability so reveal styles only hide content when GSAP will run
+      document.documentElement.classList.add('js');
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('reduced-motion');
+      }
+    </script>
+
+    <ClientRouter />
+  </head>
+  <body>
+    <Nav />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <GrainOverlay />
+    <Cursor />
+    <script>
+      import '../scripts/animations';
+    </script>
+  </body>
+</html>

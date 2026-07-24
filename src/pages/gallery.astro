@@ -1,0 +1,37 @@
+---
+import Base from '../layouts/Base.astro';
+import GalleryGrid from '../components/gallery/GalleryGrid.astro';
+---
+
+<Base
+  title="Gallery — Harde Samir Murshid"
+  description="Photography stills and behind-the-scenes moments from the stage and screen work of Kurdish actor and director Harde Samir Murshid."
+>
+  <section class="section gallery-page">
+    <div class="container">
+      <header class="gallery-head">
+        <p class="mono-label gallery-slate" data-reveal="rise">Scene 05 / Stills Archive</p>
+        <h1 class="display-xl" data-split>GALLERY</h1>
+        <p class="lede" data-reveal="rise">Stills and moments — on stage, on set, and in between takes.</p>
+      </header>
+
+      <GalleryGrid />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .gallery-page {
+    padding-top: clamp(8rem, 16vh, 11rem);
+  }
+
+  .gallery-head {
+    display: grid;
+    gap: 1.25rem;
+    margin-bottom: clamp(3rem, 7vw, 5.5rem);
+  }
+
+  .gallery-slate {
+    color: var(--crimson);
+  }
+</style>

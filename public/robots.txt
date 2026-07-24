@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /oauth/
+
+Sitemap: https://hardesamir.com/sitemap-index.xml

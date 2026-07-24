@@ -1,0 +1,109 @@
+---
+import { Image } from 'astro:assets';
+import SectionLabel from '../SectionLabel.astro';
+import posterHallaWay from '../../assets/posters/a_halla_way.jpg';
+import posterLovers from '../../assets/posters/lovers_die_standing.jpg';
+
+const works = [
+  {
+    image: posterHallaWay,
+    title: '“A Halla Way”',
+    year: '2020',
+    role: 'Director',
+    award: '10 International Awards',
+    text: 'Award-winning short film that achieved international recognition. A directorial graduation project demonstrating innovative storytelling techniques.',
+  },
+  {
+    image: posterLovers,
+    title: '“Lovers Die Standing”',
+    year: 'Feature Film',
+    role: 'Actor',
+    text: 'Feature film performance showcasing dramatic range in Kurdish cinema. A significant contribution to the development of contemporary Kurdish filmmaking.',
+  },
+];
+---
+
+<section class="section works" id="works">
+  <div class="container">
+    <SectionLabel num="04" label="Selected Works" />
+
+    <div class="works-grid">
+      {works.map((work) => (
+        <article class="work-card" data-cursor="view">
+          <div class="work-frame" data-reveal="wipe">
+            <Image
+              src={work.image}
+              alt={`${work.title} — poster`}
+              widths={[480, 800, 1200]}
+              sizes="(max-width: 900px) 100vw, 50vw"
+              formats={['avif', 'webp']}
+              loading="lazy"
+            />
+            {work.award && <p class="work-award mono-label">★ {work.award}</p>}
+          </div>
+          <div class="work-meta" data-reveal="rise">
+            <p class="mono-label work-credit">
+              <span class="credit-year">{work.year}</span> — {work.role}
+            </p>
+            <h3 class="display-md">{work.title}</h3>
+            <p class="work-text">{work.text}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .works-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr));
+    gap: clamp(2.5rem, 5vw, 4.5rem);
+  }
+
+  .work-frame {
+    position: relative;
+    overflow: hidden;
+    background: var(--bone-deep);
+    aspect-ratio: 4 / 5;
+  }
+
+  .work-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1s var(--ease-out);
+  }
+
+  .work-card:hover .work-frame img {
+    transform: scale(1.04);
+  }
+
+  .work-award {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: var(--crimson);
+    color: var(--bone);
+    padding: 0.5rem 0.9rem;
+  }
+
+  .work-meta {
+    padding-top: 1.5rem;
+    display: grid;
+    gap: 0.8rem;
+  }
+
+  .work-credit {
+    color: var(--ink-soft);
+  }
+
+  .credit-year {
+    color: var(--crimson);
+  }
+
+  .work-text {
+    color: var(--ink-soft);
+    max-width: 52ch;
+  }
+</style>

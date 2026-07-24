@@ -1,0 +1,196 @@
+---
+import SectionLabel from '../SectionLabel.astro';
+import profile from '../../data/profile.json';
+
+const credits = [
+  { role: 'Email', value: profile.contact.email, href: `mailto:${profile.contact.email}` },
+  { role: 'Phone', value: profile.contact.phone, href: `tel:${profile.contact.phone.replace(/\s/g, '')}` },
+  { role: 'Based in', value: profile.contact.location },
+  { role: 'Languages', value: profile.contact.languages.join(' · ') },
+];
+---
+
+<section class="section theme-ink contact" id="contact">
+  <div class="container">
+    <SectionLabel num="06" label="Contact" />
+
+    <div class="contact-grid">
+      <div class="contact-credits">
+        <h2 class="display-lg" data-split>End credits, or a new beginning.</h2>
+        <p class="lede contact-lede" data-reveal="rise">
+          For casting, collaborations and professional inquiries.
+        </p>
+
+        <dl class="credits-list">
+          {credits.map((c) => (
+            <div class="credit-row" data-reveal="rise">
+              <dt class="mono-label">{c.role}</dt>
+              <dd>
+                {c.href ? <a href={c.href}>{c.value}</a> : c.value}
+              </dd>
+            </div>
+          ))}
+        </dl>
+
+        <div class="contact-socials" data-reveal="rise">
+          {profile.socials.map((s) => (
+            <a href={s.url} target="_blank" rel="noopener noreferrer" class="mono-label">
+              {s.label} — @{s.handle} ↗
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <form class="contact-form" action={profile.formspree} method="POST" data-reveal="rise">
+        <p class="mono-label form-slate">Scene 06 / Take 01 — Your Message</p>
+
+        <div class="field">
+          <label for="cf-name" class="mono-label">Name</label>
+          <input id="cf-name" type="text" name="name" required autocomplete="name" />
+        </div>
+
+        <div class="field">
+          <label for="cf-email" class="mono-label">Email</label>
+          <input id="cf-email" type="email" name="email" required autocomplete="email" />
+        </div>
+
+        <div class="field">
+          <label for="cf-subject" class="mono-label">Project / Subject</label>
+          <input id="cf-subject" type="text" name="subject" />
+        </div>
+
+        <div class="field">
+          <label for="cf-message" class="mono-label">Message</label>
+          <textarea id="cf-message" name="message" rows="5" required></textarea>
+        </div>
+
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="gotcha" aria-hidden="true" />
+
+        <button type="submit" class="btn form-submit">Send Message <span class="arrow">→</span></button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: clamp(3rem, 7vw, 7rem);
+    align-items: start;
+  }
+
+  .contact-lede {
+    margin-top: 1.25rem;
+  }
+
+  .credits-list {
+    margin-top: clamp(2rem, 4vw, 3rem);
+    border-top: 1px solid var(--line-invert);
+  }
+
+  .credit-row {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 1.5rem;
+    align-items: baseline;
+    padding-block: 1.2rem;
+    border-bottom: 1px solid var(--line-invert);
+  }
+
+  .credit-row dt {
+    color: rgba(242, 238, 230, 0.55);
+  }
+
+  .credit-row dd {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+  }
+
+  .credit-row a {
+    transition: color 0.3s;
+  }
+
+  .credit-row a:hover {
+    color: var(--crimson);
+  }
+
+  .contact-socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.75rem;
+    margin-top: 2rem;
+  }
+
+  .contact-socials a {
+    opacity: 0.8;
+    transition: opacity 0.3s, color 0.3s;
+  }
+
+  .contact-socials a:hover {
+    opacity: 1;
+    color: var(--crimson);
+  }
+
+  .contact-form {
+    display: grid;
+    gap: 1.6rem;
+    border: 1px solid var(--line-invert);
+    padding: clamp(1.75rem, 3.5vw, 2.75rem);
+    background: rgba(242, 238, 230, 0.03);
+  }
+
+  .form-slate {
+    color: var(--crimson);
+  }
+
+  .field {
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .field label {
+    color: rgba(242, 238, 230, 0.6);
+  }
+
+  .field input,
+  .field textarea {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--line-invert);
+    color: var(--bone);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    padding: 0.6rem 0.1rem;
+    transition: border-color 0.3s;
+    resize: vertical;
+  }
+
+  .field input:focus,
+  .field textarea:focus {
+    outline: none;
+    border-bottom-color: var(--crimson);
+  }
+
+  .gotcha {
+    position: absolute;
+    left: -9999px;
+    height: 0;
+    width: 0;
+    overflow: hidden;
+  }
+
+  .form-submit {
+    justify-self: start;
+  }
+
+  @media (max-width: 900px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .credit-row {
+      grid-template-columns: 110px 1fr;
+    }
+  }
+</style>

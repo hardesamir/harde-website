@@ -1,0 +1,22 @@
+---
+interface Props {
+  items: string[];
+  onInk?: boolean;
+}
+const { items, onInk = false } = Astro.props;
+---
+
+<div class:list={['marquee', { 'on-ink': onInk }]} aria-hidden="true">
+  <div class="marquee-track">
+    {[0, 1].map(() => (
+      <span class="marquee-item">
+        {items.map((item, i) => (
+          <>
+            <span class:list={[{ outline: i % 2 === 1 }]}>{item}</span>
+            <span class="sep">●</span>
+          </>
+        ))}
+      </span>
+    ))}
+  </div>
+</div>

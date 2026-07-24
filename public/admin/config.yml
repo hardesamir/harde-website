@@ -1,0 +1,72 @@
+backend:
+  name: github
+  repo: hardesamir/harde-website
+  branch: main
+  base_url: https://hardesamir.com
+  auth_endpoint: oauth
+
+site_url: https://hardesamir.com
+media_folder: src/assets/gallery
+public_folder: /src/assets/gallery
+
+collections:
+  - name: content
+    label: Site Content
+    files:
+      - name: profile
+        label: Profile & Contact
+        file: src/data/profile.json
+        format: json
+        fields:
+          - { name: name, label: Full Name, widget: string }
+          - { name: shortName, label: Short Name (logo), widget: string }
+          - { name: roles, label: Roles, widget: list, field: { name: role, label: Role, widget: string } }
+          - { name: tagline, label: Tagline, widget: string }
+          - { name: heroDescription, label: Hero Description, widget: text }
+          - { name: birthDate, label: Birth Date, widget: string }
+          - { name: birthPlace, label: Birth Place, widget: string }
+          - { name: location, label: Location, widget: string }
+          - name: bio
+            label: About Paragraphs
+            widget: list
+            field: { name: paragraph, label: Paragraph, widget: text }
+          - name: education
+            label: Education
+            widget: list
+            fields:
+              - { name: years, label: Years, widget: string }
+              - { name: title, label: Title, widget: string }
+              - { name: detail, label: Detail, widget: string }
+          - name: contact
+            label: Contact
+            widget: object
+            fields:
+              - { name: email, label: Email, widget: string }
+              - { name: phone, label: Phone, widget: string }
+              - { name: location, label: Location, widget: string }
+              - { name: languages, label: Languages, widget: list, field: { name: language, label: Language, widget: string } }
+          - { name: formspree, label: Contact Form Endpoint (Formspree), widget: string }
+          - name: socials
+            label: Social Links
+            widget: list
+            fields:
+              - { name: label, label: Platform, widget: string }
+              - { name: handle, label: Handle, widget: string }
+              - { name: url, label: URL, widget: string }
+
+      - name: filmography
+        label: Filmography
+        file: src/data/filmography.json
+        format: json
+        fields:
+          - name: items
+            label: Credits
+            label_singular: Credit
+            widget: list
+            fields:
+              - { name: title, label: Title, widget: string }
+              - { name: year, label: Year, widget: string, required: false }
+              - { name: type, label: Type, widget: select, options: [Theatre, Feature Film, TV Series, Short Film, Directing] }
+              - { name: role, label: Role, widget: string }
+              - { name: note, label: Description, widget: text }
+              - { name: awards, label: Awards, widget: string, required: false }

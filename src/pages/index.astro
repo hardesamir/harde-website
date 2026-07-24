@@ -1,0 +1,31 @@
+---
+import Base from '../layouts/Base.astro';
+import Preloader from '../components/Preloader.astro';
+import Marquee from '../components/Marquee.astro';
+import Letterbox from '../components/Letterbox.astro';
+import Hero from '../components/home/Hero.astro';
+import About from '../components/home/About.astro';
+import FilmReel from '../components/home/FilmReel.astro';
+import FeaturedWorks from '../components/home/FeaturedWorks.astro';
+import GalleryTeaser from '../components/home/GalleryTeaser.astro';
+import Contact from '../components/home/Contact.astro';
+import profile from '../data/profile.json';
+import letterboxA from '../assets/gallery/photo_5_2025-07-17_17-56-24.jpg';
+import letterboxB from '../assets/gallery/photo_6_2025-07-17_17-56-24.jpg';
+---
+
+<Base
+  title="Harde Samir Murshid — Actor & Director"
+  description="Harde Samir Murshid is a Kurdish actor and director from Sulaymaniyah, bridging traditional theatre with contemporary cinema. Director of the award-winning short film “A Halla Way” (2020)."
+>
+  <Preloader />
+  <Hero />
+  <About />
+  <Letterbox image={letterboxA} alt="Cinematic still of Harde Samir Murshid" caption="On stage and on set — Kurdistan" />
+  <FilmReel />
+  <Marquee items={['10 International Awards', '“A Halla Way”', 'Dir. 2020', profile.tagline]} />
+  <FeaturedWorks />
+  <GalleryTeaser />
+  <Letterbox image={letterboxB} alt="Behind the scenes still" caption={`Languages — ${profile.contact.languages.join(' · ')}`} />
+  <Contact />
+</Base>
