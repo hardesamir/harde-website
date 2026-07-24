@@ -52,6 +52,10 @@ const active = music.enabled && music.file;
     color: var(--crimson);
   }
 
+  :global(html[data-theme='dark']) .music-toggle {
+    background: rgba(19, 17, 16, 0.82);
+  }
+
   .eq {
     display: inline-flex;
     align-items: flex-end;

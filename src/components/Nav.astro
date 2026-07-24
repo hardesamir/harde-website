@@ -21,10 +21,22 @@ const links = [
       {links.map((l) => <a href={l.href}>{l.label}</a>)}
     </nav>
 
-    <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" data-nav-toggle>
-      <span></span>
-      <span></span>
-    </button>
+    <div class="nav-actions">
+      <button class="theme-toggle" aria-label="Switch to dark theme" data-theme-toggle>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>
+        </svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+        </svg>
+      </button>
+
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" data-nav-toggle>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
   </div>
 
   <div class="nav-overlay" data-nav-overlay>
@@ -54,6 +66,49 @@ const links = [
     background: rgba(242, 238, 230, 0.82);
     backdrop-filter: blur(14px);
     border-bottom: 1px solid var(--line);
+  }
+
+  :global(html[data-theme='dark']) .site-nav.scrolled {
+    background: rgba(19, 17, 16, 0.82);
+  }
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+  }
+
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    transition: border-color 0.3s var(--ease-out), color 0.3s var(--ease-out);
+  }
+
+  .theme-toggle:hover {
+    border-color: var(--crimson);
+    color: var(--crimson);
+  }
+
+  .theme-toggle svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .icon-sun {
+    display: none;
+  }
+
+  :global(html[data-theme='dark']) .icon-sun {
+    display: block;
+  }
+
+  :global(html[data-theme='dark']) .icon-moon {
+    display: none;
   }
 
   .site-nav.on-ink:not(.scrolled) {
@@ -141,8 +196,9 @@ const links = [
       display: block;
       position: fixed;
       inset: 0;
-      background: var(--ink);
-      color: var(--bone);
+      /* menu overlay stays ink in both themes */
+      background: #12100e;
+      color: #f2eee6;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.45s var(--ease-cine);
@@ -220,6 +276,24 @@ const links = [
         toggle.setAttribute('aria-expanded', 'false');
       })
     );
+
+    const themeBtn = document.querySelector('[data-theme-toggle]');
+    if (themeBtn && !(themeBtn as HTMLElement).dataset.bound) {
+      (themeBtn as HTMLElement).dataset.bound = '1';
+      const syncLabel = () => {
+        const dark = document.documentElement.dataset.theme === 'dark';
+        themeBtn.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
+      };
+      syncLabel();
+      themeBtn.addEventListener('click', () => {
+        const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+        try {
+          localStorage.setItem('hs-theme', next);
+        } catch {}
+        (window as any).__applyTheme?.(next);
+        syncLabel();
+      });
+    }
   }
 
   initNav();

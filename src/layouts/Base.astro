@@ -72,11 +72,32 @@ const personSchema = {
     <script type="application/ld+json" set:html={JSON.stringify(personSchema)} is:inline />
 
     <script is:inline>
-      // marks JS availability so reveal styles only hide content when GSAP will run
-      document.documentElement.classList.add('js');
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        document.documentElement.classList.add('reduced-motion');
-      }
+      // runs before first paint: marks JS availability (reveal styles only hide
+      // content when GSAP will run) and applies the saved/system theme flash-free
+      (function () {
+        function applyState() {
+          var d = document.documentElement;
+          d.classList.add('js');
+          if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            d.classList.add('reduced-motion');
+          }
+          var saved = null;
+          try {
+            saved = localStorage.getItem('hs-theme');
+          } catch (e) {}
+          var theme =
+            saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          window.__applyTheme(theme);
+        }
+        window.__applyTheme = function (theme) {
+          document.documentElement.dataset.theme = theme;
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute('content', theme === 'dark' ? '#131110' : '#f2eee6');
+        };
+        applyState();
+        // view transitions replace <html> attributes with the new page's — re-apply
+        document.addEventListener('astro:after-swap', applyState);
+      })();
     </script>
 
     <ClientRouter />

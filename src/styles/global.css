@@ -24,6 +24,25 @@
   --ease-cine: cubic-bezier(0.65, 0.05, 0.36, 1);
 }
 
+/* ---------- dark mode ----------
+   Only the light "paper" surfaces re-skin; .theme-ink screening-room
+   sections stay dark in both modes (overridden below because they
+   build on var(--ink), whose meaning flips here). */
+
+html[data-theme='dark'] {
+  --bone: #131110;
+  --bone-deep: #1b1815;
+  --ink: #ece7dd;
+  --ink-soft: #a49b8d;
+  --line: rgba(236, 231, 221, 0.14);
+}
+
+html[data-theme='dark'] .theme-ink,
+html[data-theme='dark'] .letterbox {
+  background: #0b0a09;
+  color: #f2eee6;
+}
+
 /* ---------- reset ---------- */
 
 *,
@@ -51,6 +70,7 @@ html.lenis body {
 body {
   background: var(--bone);
   color: var(--ink);
+  transition: background-color 0.35s var(--ease-out), color 0.35s var(--ease-out);
   font-family: var(--font-body);
   font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
   line-height: 1.65;
@@ -81,7 +101,7 @@ button {
 
 ::selection {
   background: var(--crimson);
-  color: var(--bone);
+  color: #f2eee6;
 }
 
 :focus-visible {
@@ -164,6 +184,7 @@ h3 {
 .theme-ink {
   background: var(--ink);
   color: var(--bone);
+  transition: background-color 0.35s var(--ease-out), color 0.35s var(--ease-out);
 }
 
 .theme-ink .lede {
@@ -222,7 +243,7 @@ h3 {
 .btn:hover {
   background: var(--crimson);
   border-color: var(--crimson);
-  color: var(--bone);
+  color: #f2eee6;
 }
 
 .btn .arrow {
@@ -338,7 +359,7 @@ h3 {
 
 .letterbox-caption {
   text-align: center;
-  color: var(--bone);
+  color: #f2eee6;
   font-family: var(--font-mono);
   font-size: 0.75rem;
   letter-spacing: 0.22em;
@@ -388,7 +409,7 @@ h3 {
     font-family: var(--font-mono);
     font-size: 0.6rem;
     letter-spacing: 0.14em;
-    color: var(--bone);
+    color: #f2eee6; /* sits on the crimson ring in both themes */
     opacity: 0;
     transition: opacity 0.2s;
   }
