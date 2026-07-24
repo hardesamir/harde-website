@@ -110,8 +110,23 @@ const active = music.enabled && music.file;
   // module scope survives Astro view transitions, so playback never restarts
   let audio: HTMLAudioElement | null = null;
   let fadeFrame = 0;
+  let armed = false;
   const TARGET_VOLUME = 0.35;
   const PREF_KEY = 'hs-sound';
+
+  function pref(): string | null {
+    try {
+      return localStorage.getItem(PREF_KEY);
+    } catch {
+      return null;
+    }
+  }
+
+  function setPref(value: string) {
+    try {
+      localStorage.setItem(PREF_KEY, value);
+    } catch {}
+  }
 
   function fadeTo(target: number, onDone?: () => void) {
     if (!audio) return;
@@ -133,8 +148,53 @@ const active = music.enabled && music.file;
     btn.setAttribute('aria-label', playing ? 'Turn sound off' : 'Turn sound on');
   }
 
+  function ensureAudio(src: string | undefined) {
+    if (!audio) {
+      audio = new Audio(src);
+      audio.loop = true;
+      audio.volume = 0;
+    }
+    return audio;
+  }
+
+  function currentBtn() {
+    return document.querySelector<HTMLButtonElement>('[data-music-toggle]');
+  }
+
+  function begin() {
+    if (!audio) return;
+    audio
+      .play()
+      .then(() => {
+        fadeTo(TARGET_VOLUME);
+        const btn = currentBtn();
+        if (btn) setUi(btn, true);
+      })
+      .catch(() => {});
+  }
+
+  // autoplay was blocked: start at the visitor's first real interaction anywhere
+  function armFirstInteraction(src: string | undefined) {
+    if (armed) return;
+    armed = true;
+    const events = ['pointerdown', 'keydown', 'touchend'];
+    const disarm = () => {
+      events.forEach((ev) => window.removeEventListener(ev, onFirst, true));
+      armed = false;
+    };
+    const onFirst = (e: Event) => {
+      disarm();
+      // let the toggle's own click handler decide instead of racing it
+      if ((e.target as HTMLElement | null)?.closest?.('[data-music-toggle]')) return;
+      if (pref() === 'off') return;
+      ensureAudio(src);
+      begin();
+    };
+    events.forEach((ev) => window.addEventListener(ev, onFirst, true));
+  }
+
   function bind() {
-    const btn = document.querySelector<HTMLButtonElement>('[data-music-toggle]');
+    const btn = currentBtn();
     if (!btn || btn.dataset.bound) return;
     btn.dataset.bound = '1';
 
@@ -142,21 +202,29 @@ const active = music.enabled && music.file;
     setUi(btn, !!audio && !audio.paused);
 
     btn.addEventListener('click', () => {
-      if (!audio) {
-        audio = new Audio(btn.dataset.src);
-        audio.loop = true;
-        audio.volume = 0;
-      }
+      ensureAudio(btn.dataset.src);
+      if (!audio) return;
       if (audio.paused) {
-        audio.play().then(() => fadeTo(TARGET_VOLUME)).catch(() => {});
-        setUi(btn, true);
-        localStorage.setItem(PREF_KEY, 'on');
+        setPref('on');
+        begin();
       } else {
         fadeTo(0, () => audio?.pause());
         setUi(btn, false);
-        localStorage.setItem(PREF_KEY, 'off');
+        setPref('off');
       }
     });
+
+    // auto-start unless the visitor previously turned the sound off
+    if (pref() !== 'off' && (!audio || audio.paused)) {
+      ensureAudio(btn.dataset.src);
+      audio!
+        .play()
+        .then(() => {
+          fadeTo(TARGET_VOLUME);
+          setUi(btn, true);
+        })
+        .catch(() => armFirstInteraction(btn.dataset.src));
+    }
   }
 
   bind();
