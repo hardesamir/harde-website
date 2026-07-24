@@ -1,4 +1,6 @@
-name: Build and Deploy Astro Site
+# Deployment is handled by Vercel (auto-deploys on push).
+# This workflow is only a build check for pull requests and main.
+name: Build Check
 
 on:
   push:
@@ -7,13 +9,8 @@ on:
     branches: [ main ]
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
 
     steps:
     - name: Checkout
@@ -30,16 +27,3 @@ jobs:
 
     - name: Build site
       run: npm run build
-
-    - name: Setup Pages
-      uses: actions/configure-pages@v4
-
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3
-      with:
-        path: 'dist'
-
-    - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v4
-      if: github.ref == 'refs/heads/main'
