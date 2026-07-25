@@ -2,42 +2,54 @@
   "items": [
     {
       "title": "Shalir",
+      "year": "",
       "type": "Theatre",
       "role": "Leading Role",
-      "note": "Acclaimed stage production and a defining early performance in Kurdish theatre."
+      "note": "Acclaimed stage production and a defining early performance in Kurdish theatre.",
+      "awards": ""
     },
     {
       "title": "Romeo and Juliet",
+      "year": "",
       "type": "Theatre",
       "role": "Leading Role",
-      "note": "Classical drama demonstrating range and commitment to the canon."
+      "note": "Classical drama demonstrating range and commitment to the canon.",
+      "awards": ""
     },
     {
       "title": "Macbeth",
+      "year": "",
       "type": "Theatre",
       "role": "Performer",
-      "note": "Shakespearean tragedy staged in Kurdish theatre."
+      "note": "Shakespearean tragedy staged in Kurdish theatre.",
+      "awards": ""
     },
     {
       "title": "Lovers Die Standing",
+      "year": "",
       "type": "Feature Film",
       "role": "Actor",
-      "note": "Feature film performance showcasing dramatic range in contemporary Kurdish cinema."
+      "note": "Feature film performance showcasing dramatic range in contemporary Kurdish cinema.",
+      "awards": ""
     },
     {
       "title": "Television",
+      "year": "",
       "type": "TV Series",
       "role": "Actor",
-      "note": "Garmian U Kwestan · Rabab · Ghorbat · Akamy Nheniakamn · Chpay Rabrdu"
+      "note": "Garmian U Kwestan · Rabab · Ghorbat · Akamy Nheniakamn · Chpay Rabrdu",
+      "awards": ""
     },
     {
       "title": "Seven Short Films",
+      "year": "",
       "type": "Short Film",
       "role": "Actor",
-      "note": "Supporting independent Kurdish cinema across seven short film productions."
+      "note": "Supporting independent Kurdish cinema across seven short film productions.",
+      "awards": ""
     },
     {
-      "title": "A Halla Way",
+      "title": "A HallaWay",
       "year": "2020",
       "type": "Directing",
       "role": "Director",
